@@ -1,6 +1,6 @@
-# IPL_Data_Project-I
+# Sutirtha_IPL_Project
 
-This project is about getting several insights and information from a large set of data. The Data is of all IPL seasons played from 2008 to 2017.The data is stored in CSV files.
+This project is about getting several insights and information from a large set of data. The data is of all IPL seasons played from 2008 to 2017. The data is stored in CSV files.
 
 ## Installations
 
@@ -21,13 +21,13 @@ This project is about getting several insights and information from a large set 
 ### 4. Clone this repository
 
 ```sh
-git clone https://github.com/Sutirtha17/IPL_Data_Project-I.git
+git clone https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
 ```
 
 ### 5. Go to the working directory
 
 ```sh
-cd IPL_Data_Project-I
+cd Sutirtha_IPL_Project
 ```
 
 ### 6. Install npm
@@ -75,10 +75,10 @@ each file will be containing separate outputs
 
 - **`public`**: This directory contains a directory named `output` and files `index.html` and `style.css`
 
-  - **`output`**: This directory contains 4 output files with named as `matchesPerYear.json`, `matchesWonPerYear.json`, `extraRuns2016.json` and `economicalBowlers.json`.
+  - **`output`**: This directory contains four output files named as `matchesPerYear.json`, `matchesWonPerYear.json`, `extraRuns2016.json` and `economicalBowlers.json`.
 
 - **`server`**
 
-  - **`index.js`**: This file contains the code which: 1. Reads csv data from dataset. 2. Imports all function from `src/functions` directory and executes them. 3. Stores the solution of each problem in separate output files in `src/public/output` directory.
+  - **`index.js`**: This file contains the code which : 1 Reads csv data from dataset. 2 Imports all function from `src/functions` directory and executes them. 3 Stores the solution of each problem in separate output files in `src/public/output` directory.
 
 ---
