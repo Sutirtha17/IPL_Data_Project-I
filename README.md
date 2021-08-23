@@ -24,13 +24,25 @@ This project is about getting several insights and information from a large set 
 git clone https://github.com/Sutirtha17/IPL_Project-I.git
 ```
 
-### 5. Install npm packages
+### 5. Install npm
 
 ```sh
 npm install
 ```
 
-### 6. Get the outputs
+### 6. Install papaparse for parsing csv file
+
+```sh
+npm i papaparse
+```
+
+### Go to the working directory
+
+```sh
+cd IPL_data_Project-I
+```
+
+### 7. Get the outputs
 
 ```sh
 npm run start
