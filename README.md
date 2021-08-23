@@ -1,6 +1,6 @@
 # IPL_Data_Project-I
 
-This project is about getting several insights and information from a large set of data. The Data is of all IPL seasons played from 2008 to 2017.
+This project is about getting several insights and information from a large set of data. The Data is of all IPL seasons played from 2008 to 2017.The data is stored in CSV files.
 
 ## Installations
 
@@ -24,31 +24,39 @@ This project is about getting several insights and information from a large set 
 git clone https://github.com/Sutirtha17/IPL_Data_Project-I.git
 ```
 
-### 5. Install npm
-
-```sh
-npm install
-```
-
-### 6. Install papaparse for parsing csv file
-
-```sh
-npm i papaparse
-```
-
-### Go to the working directory
+### 5. Go to the working directory
 
 ```sh
 cd IPL_Data_Project-I
 ```
 
-### 7. Get the outputs
+### 6. Install npm
+
+```sh
+npm install
+```
+
+### 7. Install papaparse for parsing csv file
+
+```sh
+npm i papaparse
+```
+
+### 8. Run the functions
 
 ```sh
 npm run start
 ```
 
----
+### 9. Check the outputs
+
+go to the output directory using
+
+```sh
+cd src/public/output
+```
+
+each file will be containing separate outputs
 
 ## Obtained Insights
 
