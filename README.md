@@ -1,4 +1,4 @@
-# IPL Data Project I
+# IPL_Data_Project-I
 
 This project is about getting several insights and information from a large set of data. The Data is of all IPL seasons played from 2008 to 2017.
 
@@ -21,7 +21,7 @@ This project is about getting several insights and information from a large set 
 ### 4. Clone this repository
 
 ```sh
-git clone https://github.com/Sutirtha17/IPL_Project-I.git
+git clone https://github.com/Sutirtha17/IPL_Data_Project-I.git
 ```
 
 ### 5. Install npm
@@ -39,7 +39,7 @@ npm i papaparse
 ### Go to the working directory
 
 ```sh
-cd IPL_data_Project-I
+cd IPL_Data_Project-I
 ```
 
 ### 7. Get the outputs
