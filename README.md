@@ -71,14 +71,14 @@ each file will be containing separate outputs
 
 - **`data`**: This directory contains the datasets `matches.csv` and `deliveries.csv`
 
-- **`functions`**: This directory contains the functional logic of the problems named as `numberOfMatches.js` , `matchesWonPerYear.js` , `extraRuns2016.js` and `economicalBowlers.js`
-
 - **`public`**: This directory contains a directory named `output` and files `index.html` and `style.css`
 
   - **`output`**: This directory contains four output files named as `matchesPerYear.json`, `matchesWonPerYear.json`, `extraRuns2016.json` and `economicalBowlers.json`.
 
 - **`server`**
 
-  - **`index.js`**: This file contains the code which : 1 Reads csv data from dataset. 2 Imports all function from `src/functions` directory and executes them. 3 Stores the solution of each problem in separate output files in `src/public/output` directory.
+  - **`ipl.js`**: This file contains the functional logic of problems which are separated in four module named as `numberOfMatches` , `matchesWonPerYear` , `extraRuns2016` and `economicalBowlers`
+
+  - **`index.js`**: This file contains the code which : 1 Reads csv data from dataset. 2 Imports all function from `ipl.js` file and executes them. 3 Stores the solution of each problem in separate output files in `src/public/output` directory.
 
 ---

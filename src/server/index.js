@@ -2,13 +2,13 @@ import fs from "fs";
 
 import papa from "papaparse";
 
-import extraRuns2016 from "./../functions/extraRuns2016.js";
+import { extraRuns2016 } from "./ipl.js";
 
-import matchesWonPerYear from "./../functions/matchesWonPerYear.js";
+import { matchesWonPerYear } from "./ipl.js";
 
-import numberOfMatches from "./../functions/numberOfMatchesPlayed.js";
+import { numberOfMatches } from "./ipl.js";
 
-import economicalBowlers from "./../functions/economicalBowlers.js";
+import { economicalBowlers } from "./ipl.js";
 
 const matches = fs.createReadStream("./../data/matches.csv");
 
