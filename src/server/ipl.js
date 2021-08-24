@@ -1,63 +1,10 @@
-export function numberOfMatches(result) {
-  const mapOfYears = new Map();
-  for (let i = 1; i < result.length; i++) {
-    let year = result[i][1];
-    if (mapOfYears[year] == undefined) {
-      mapOfYears[year] = 1;
-    } else {
-      mapOfYears[year] += 1;
-    }
-  }
-  return mapOfYears;
-}
-
-export function matchesWonPerYear(result) {
-  const mapOfMatchesWonPerYear = new Map(); //
-  for (let i = 1; i < result.length; i++) {
-    let year = result[i][1];
-    let team = result[i][10];
-    if (mapOfMatchesWonPerYear.get(year) == undefined) {
-      mapOfMatchesWonPerYear.set(year, new Map());
-    } else {
-      if (mapOfMatchesWonPerYear.get(year).get(team) == undefined && team)
-        mapOfMatchesWonPerYear.get(year).set(team, 1);
-      else {
-        if (team) {
-          let matches = mapOfMatchesWonPerYear.get(year).get(team);
-          matches += 1;
-          mapOfMatchesWonPerYear.get(year).set(team, matches);
-        }
-      }
-    }
-  }
-  return mapOfMatchesWonPerYear;
-}
-
-export function extraRuns2016(result) {
-  const mapOf2016 = new Map();
-  for (let i = 1; i < result.length; i++) {
-    if (result[i][0] > 576) {
-      let team = result[i][3];
-      let extraRuns = Number(result[i][16]);
-      if (mapOf2016.get(team) == undefined) mapOf2016.set(team, extraRuns);
-      else {
-        let currentExtraRuns = mapOf2016.get(team);
-        currentExtraRuns += extraRuns;
-        mapOf2016.set(team, currentExtraRuns);
-      }
-    }
-  }
-  return Object.fromEntries(mapOf2016);
-}
-
 function bowlsToOverConvertion(totalBowls) {
   return Math.floor(totalBowls / 6) + (totalBowls % 6) / 10;
 }
 
-function mapToObject(mapOfBowlers) {
+function calculateEconomy(objectOfBowlers) {
   const objOfBowlers = new Object();
-  for (let bowler of mapOfBowlers.keys()) {
-    let currentStat = mapOfBowlers.get(bowler);
+  for (let [bowler, currentStat] of Object.entries(objectOfBowlers)) {
     let runs = currentStat[0];
     let overs = bowlsToOverConvertion(currentStat[1]);
     let economyRate = (runs / overs).toFixed(2);
@@ -80,29 +27,95 @@ function getTop10(objOfBowlers) {
   return resultObject;
 }
 
-export function economicalBowlers(result) {
-  const mapOfBowlers = new Map();
-  for (let i = 1; i < result.length; i++) {
-    if (result[i][0] >= 518 && result[i][0] <= 576) {
-      let bowler = result[i][8];
-      let runsOnEachBowl = Number(result[i][17]);
-      let wideBalls = Number(result[i][10]);
-      let noballs = Number(result[i][13]);
-      if (mapOfBowlers.get(bowler) == undefined) {
-        if (wideBalls > 0 || noballs > 0)
-          mapOfBowlers.set(bowler, [runsOnEachBowl, 0]);
-        else {
-          mapOfBowlers.set(bowler, [runsOnEachBowl, 1]);
+function getMatchIds(matches, requiredSeason) {
+  let matchIds = new Set();
+  for (let i = 1; i < matches.length; i++) {
+    if (matches[i][1] == requiredSeason) matchIds.add(matches[i][0]);
+  }
+  return matchIds;
+}
+
+function numberOfMatches(matches) {
+  const objectOfYears = new Object();
+  for (let i = 1; i < matches.length; i++) {
+    let year = matches[i][1];
+    if (objectOfYears[year] == undefined) {
+      objectOfYears[year] = 1;
+    } else {
+      objectOfYears[year] = Number(objectOfYears[year]) + 1;
+    }
+  }
+  return objectOfYears;
+}
+
+function matchesWonPerYear(matches) {
+  const objectOfMatchesWonPerYear = new Object(); //
+  for (let i = 1; i < matches.length; i++) {
+    let year = matches[i][1];
+    let team = matches[i][10];
+    if (objectOfMatchesWonPerYear[year] == undefined) {
+      objectOfMatchesWonPerYear[year] = new Object();
+    } else {
+      if (objectOfMatchesWonPerYear[year][team] == undefined && team)
+        objectOfMatchesWonPerYear[year][team] = 1;
+      else {
+        if (team) {
+          let noOfMatches = Number(objectOfMatchesWonPerYear[year][team]);
+          noOfMatches += 1;
+          objectOfMatchesWonPerYear[year][team] = noOfMatches;
         }
-      } else {
-        let currentStat = mapOfBowlers.get(bowler);
-        currentStat[0] += runsOnEachBowl;
-        if (wideBalls == 0 && noballs == 0) currentStat[1] += 1;
-        mapOfBowlers.set(bowler, currentStat);
       }
     }
   }
-  const objOfBowlers = mapToObject(mapOfBowlers);
-  const resultObject = getTop10(objOfBowlers);
-  return resultObject;
+  return objectOfMatchesWonPerYear;
 }
+
+function extraRuns2016(matches, deliveries, requiredSeason) {
+  const objOfExtraRuns2016 = new Object();
+  let matchIds = getMatchIds(matches, requiredSeason);
+  for (let i = 1; i < deliveries.length; i++) {
+    let matchId = deliveries[i][0];
+    if (matchIds.has(matchId)) {
+      let team = deliveries[i][3];
+      let extraRuns = Number(deliveries[i][16]);
+      if (objOfExtraRuns2016[team] == undefined)
+        objOfExtraRuns2016[team] = extraRuns;
+      else {
+        let currentExtraRuns = Number(objOfExtraRuns2016[team]);
+        currentExtraRuns += extraRuns;
+        objOfExtraRuns2016[team] = currentExtraRuns;
+      }
+    }
+  }
+  return objOfExtraRuns2016;
+}
+
+function economicalBowlers(matches, deliveries, requiredSeason) {
+  const objectOfBowlers = new Object();
+  let matchIds = getMatchIds(matches, requiredSeason);
+  for (let i = 1; i < deliveries.length; i++) {
+    let matchId = deliveries[i][0];
+    if (matchIds.has(matchId)) {
+      let bowler = deliveries[i][8];
+      let runsOnEachBowl = Number(deliveries[i][17]);
+      let wideBalls = Number(deliveries[i][10]);
+      let noballs = Number(deliveries[i][13]);
+      if (objectOfBowlers[bowler] == undefined) {
+        if (wideBalls > 0 || noballs > 0)
+          objectOfBowlers[bowler] = [runsOnEachBowl, 0];
+        else {
+          objectOfBowlers[bowler] = [runsOnEachBowl, 1];
+        }
+      } else {
+        let currentStat = objectOfBowlers[bowler];
+        currentStat[0] += runsOnEachBowl;
+        if (wideBalls == 0 && noballs == 0) currentStat[1] += 1;
+        objectOfBowlers[bowler] = currentStat;
+      }
+    }
+  }
+  const objOfBowlers = calculateEconomy(objectOfBowlers);
+  return getTop10(objOfBowlers);
+}
+
+export { numberOfMatches, matchesWonPerYear, extraRuns2016, economicalBowlers };
