@@ -20,8 +20,11 @@ papa.parse(matches, {
     const objectOfYears = numberOfMatches(matches.data);
 
     const jsonOfYears = JSON.stringify(objectOfYears);
-
-    fs.writeFileSync("./../public/output/matchesPerYear.json", jsonOfYears);
+    try {
+      fs.writeFileSync("./../public/output/matchesPerYear.json", jsonOfYears);
+    } catch (err) {
+      console.log(err);
+    }
 
     //problem 2
 
@@ -29,10 +32,14 @@ papa.parse(matches, {
 
     const jsonOfMatches = JSON.stringify(objectOfMatchesWonPerYear);
 
-    fs.writeFileSync(
-      "./../public/output/matchesWonPerYear.json",
-      jsonOfMatches
-    );
+    try {
+      fs.writeFileSync(
+        "./../public/output/matchesWonPerYear.json",
+        jsonOfMatches
+      );
+    } catch (err) {
+      console.log(err);
+    }
 
     papa.parse(deliveries, {
       complete: function (deliveries) {
@@ -41,11 +48,14 @@ papa.parse(matches, {
         const objOf2016 = extraRuns2016(matches.data, deliveries.data, 2016);
 
         const jsonExtraRuns = JSON.stringify(objOf2016);
-
-        fs.writeFileSync(
-          "./../public/output/extraRuns2016.json",
-          jsonExtraRuns
-        );
+        try {
+          fs.writeFileSync(
+            "./../public/output/extraRuns2016.json",
+            jsonExtraRuns
+          );
+        } catch (err) {
+          console.log(err);
+        }
 
         // problem 4
 
@@ -56,10 +66,14 @@ papa.parse(matches, {
         );
 
         const jsonOfBowlers = JSON.stringify(objOfbowlers);
-        fs.writeFileSync(
-          "./../public/output/economicalBowlers.json",
-          jsonOfBowlers
-        );
+        try {
+          fs.writeFileSync(
+            "./../public/output/economicalBowlers.json",
+            jsonOfBowlers
+          );
+        } catch (err) {
+          console.log(err);
+        }
       },
     });
   },
