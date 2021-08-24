@@ -67,18 +67,23 @@ each file will be containing separate outputs
 
 ## Project Structure
 
-**`src`**: This directory contains four directories:
+[**`src`**](/src): This directory contains four directories:
 
-- **`data`**: This directory contains the datasets `matches.csv` and `deliveries.csv`
+- [**`data`**](/src/data): This directory contains the datasets `matches.csv` and `deliveries.csv`
 
-- **`public`**: This directory contains a directory named `output` and files `index.html` and `style.css`
+- [**`public`**](/src/public): This directory contains a directory named `output` and files `index.html` and `style.css`
 
-  - **`output`**: This directory contains four output files named as `matchesPerYear.json`, `matchesWonPerYear.json`, `extraRuns2016.json` and `economicalBowlers.json`.
+  - [**`output`**](/src/public/output): This directory contains four output files named as `matchesPerYear.json`, `matchesWonPerYear.json`, `extraRuns2016.json` and `economicalBowlers.json`.
 
-- **`server`**
+- [**`server`**](/src/server)
 
-  - **`ipl.js`**: This file contains the functional logic of problems which are separated in four module named as `numberOfMatches` , `matchesWonPerYear` , `extraRuns2016` and `economicalBowlers`
+  - [**`ipl.js`**](/src/server/ipl.js): This file contains the functional logic of problems which are separated in four module named as `numberOfMatches` , `matchesWonPerYear` , `extraRuns2016` and `economicalBowlers`
 
-  - **`index.js`**: This file contains the code which : 1 Reads csv data from dataset. 2 Imports all function from `ipl.js` file and executes them. 3 Stores the solution of each problem in separate output files in `src/public/output` directory.
+  - [**`index.js`**](/src/server/index.js): This file contains the code which : 1 Reads csv data from dataset. 2 Imports all function from `ipl.js` file and executes them. 3 Stores the solution of each problem in separate output files in `src/public/output` directory.
+
+**`node_modules`**: This directory is used by node and npm to store third party packages like `papaparse`. It will appear once you install `papaparse` package from [step 7](#7-Install-papaparse-for-parsing-csv-file) of Installation.
+
+**papaparse**: Papa Parse is the fastest in-browser CSV (or delimited text) parser for JavaScript. It is reliable and correct according to RFC 4180.
+To learn more you can visit [papapparse](https://www.npmjs.com/package/papaparse).
 
 ---
