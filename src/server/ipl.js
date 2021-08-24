@@ -55,17 +55,17 @@ function matchesWonPerYear(matches) {
     let team = matches[i][10];
     if (objectOfMatchesWonPerYear[year] == undefined) {
       objectOfMatchesWonPerYear[year] = new Object();
-    } else {
-      if (objectOfMatchesWonPerYear[year][team] == undefined && team)
-        objectOfMatchesWonPerYear[year][team] = 1;
-      else {
-        if (team) {
-          let noOfMatches = Number(objectOfMatchesWonPerYear[year][team]);
-          noOfMatches += 1;
-          objectOfMatchesWonPerYear[year][team] = noOfMatches;
-        }
+    }
+    if (objectOfMatchesWonPerYear[year][team] == undefined && team)
+      objectOfMatchesWonPerYear[year][team] = 1;
+    else {
+      if (team) {
+        let noOfMatches = Number(objectOfMatchesWonPerYear[year][team]);
+        noOfMatches += 1;
+        objectOfMatchesWonPerYear[year][team] = noOfMatches;
       }
     }
+    //if (team == "Kolkata Knight Riders" && year == "2008") console.log(team);
   }
   return objectOfMatchesWonPerYear;
 }
