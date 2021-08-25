@@ -14,9 +14,12 @@ This project is about getting several insights and information from a large set 
 
 <https://nodejs.org/en/download/>
 
-### 3. Install VSCode
+### 3. Open terminal
 
-<https://code.visualstudio.com/download>
+```sh
+Open your terminal.
+Use CTRL + ALT + T (Linux)
+```
 
 ### 4. Clone this repository
 
