@@ -13,15 +13,14 @@ function getMatchIds(matches, requiredSeason) {
 /* Problem 1*/
 
 function numberOfMatches(matches) {
-  const objectOfYears = new Object();
-  for (let i = 1; i < matches.length; i++) {
-    let year = matches[i][1];
-    if (objectOfYears[year] == undefined) {
-      objectOfYears[year] = 1;
-    } else {
-      objectOfYears[year] = Number(objectOfYears[year]) + 1;
-    }
-  }
+  const objectOfYears = matches.reduce((objectOfYears, currentMatch) => {
+    let year = parseInt(currentMatch[1]);
+    if (!year) return objectOfYears;
+    if (!objectOfYears[year]) objectOfYears[year] = 1;
+    else objectOfYears[year] = Number(objectOfYears[year]) + 1;
+    return objectOfYears;
+  }, new Object());
+
   return objectOfYears;
 }
 
