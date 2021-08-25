@@ -18,20 +18,16 @@ papa.parse(matches, {
     //problem 1
 
     const objectOfYears = numberOfMatches(matches.data);
-
     const jsonOfYears = JSON.stringify(objectOfYears);
     try {
       fs.writeFileSync("./../public/output/matchesPerYear.json", jsonOfYears);
     } catch (err) {
       console.log(err);
     }
-
     //problem 2
 
     const objectOfMatchesWonPerYear = matchesWonPerYear(matches.data);
-
     const jsonOfMatches = JSON.stringify(objectOfMatchesWonPerYear);
-
     try {
       fs.writeFileSync(
         "./../public/output/matchesWonPerYear.json",
@@ -46,7 +42,6 @@ papa.parse(matches, {
         // problem 3
 
         const objOf2016 = extraRuns2016(matches.data, deliveries.data, 2016);
-
         const jsonExtraRuns = JSON.stringify(objOf2016);
         try {
           fs.writeFileSync(
@@ -64,7 +59,6 @@ papa.parse(matches, {
           deliveries.data,
           2015
         );
-
         const jsonOfBowlers = JSON.stringify(objOfbowlers);
         try {
           fs.writeFileSync(
