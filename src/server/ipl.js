@@ -27,46 +27,51 @@ function numberOfMatches(matches) {
 /* Problem 2*/
 
 function matchesWonPerYear(matches) {
-  const objectOfMatchesWonPerYear = new Object();
-  for (let i = 1; i < matches.length; i++) {
-    let year = matches[i][1];
-    let team = matches[i][10];
-    if (objectOfMatchesWonPerYear[year] == undefined) {
-      objectOfMatchesWonPerYear[year] = new Object();
-    }
-    if (objectOfMatchesWonPerYear[year][team] == undefined && team)
-      objectOfMatchesWonPerYear[year][team] = 1;
-    else {
-      if (team) {
+  const objectOfMatchesWonPerYear = matches.reduce(
+    (objectOfMatchesWonPerYear, currentMatch) => {
+      let year = parseInt(currentMatch[1]);
+      let team = currentMatch[10];
+      if (!year || !team) return objectOfMatchesWonPerYear;
+      if (!objectOfMatchesWonPerYear[year]) {
+        objectOfMatchesWonPerYear[year] = new Object();
+      }
+      if (!objectOfMatchesWonPerYear[year][team]) {
+        objectOfMatchesWonPerYear[year][team] = 1;
+      } else {
         let noOfMatches = Number(objectOfMatchesWonPerYear[year][team]);
-
         noOfMatches += 1;
         objectOfMatchesWonPerYear[year][team] = noOfMatches;
       }
-    }
-  }
+      return objectOfMatchesWonPerYear;
+    },
+    new Object()
+  );
   return objectOfMatchesWonPerYear;
 }
 
 /* Problem 3*/
 
 function extraRuns2016(matches, deliveries, requiredSeason) {
-  const objOfExtraRuns2016 = new Object();
-  let matchIds = getMatchIds(matches, requiredSeason);
-  for (let i = 1; i < deliveries.length; i++) {
-    let matchId = deliveries[i][0];
-    if (matchIds.has(matchId)) {
-      let team = deliveries[i][3];
-      let extraRuns = Number(deliveries[i][16]);
-      if (objOfExtraRuns2016[team] == undefined) {
-        objOfExtraRuns2016[team] = extraRuns;
-      } else {
-        let currentExtraRuns = Number(objOfExtraRuns2016[team]);
-        currentExtraRuns += extraRuns;
-        objOfExtraRuns2016[team] = currentExtraRuns;
+  const matchIds = getMatchIds(matches, requiredSeason);
+  const objOfExtraRuns2016 = deliveries.reduce(
+    (objOfExtraRuns2016, currentMatch) => {
+      let matchId = currentMatch[0];
+      if (matchIds.has(matchId)) {
+        let team = currentMatch[3];
+        if (!team) return objOfExtraRuns2016;
+        let extraRuns = Number(currentMatch[16]);
+        if (!objOfExtraRuns2016[team]) {
+          objOfExtraRuns2016[team] = extraRuns;
+        } else {
+          let currentExtraRuns = Number(objOfExtraRuns2016[team]);
+          currentExtraRuns += extraRuns;
+          objOfExtraRuns2016[team] = currentExtraRuns;
+        }
       }
-    }
-  }
+      return objOfExtraRuns2016;
+    },
+    new Object()
+  );
   return objOfExtraRuns2016;
 }
 
@@ -101,16 +106,15 @@ function getTop10(objOfBowlers) {
 }
 
 function economicalBowlers(matches, deliveries, requiredSeason) {
-  const objectOfBowlers = new Object();
   let matchIds = getMatchIds(matches, requiredSeason);
-  for (let i = 1; i < deliveries.length; i++) {
-    let matchId = deliveries[i][0];
+  const objectOfBowlers = deliveries.reduce((objectOfBowlers, currentMatch) => {
+    let matchId = currentMatch[0];
     if (matchIds.has(matchId)) {
-      let bowler = deliveries[i][8];
-      let runsOnEachBowl = Number(deliveries[i][17]);
-      let wideBalls = Number(deliveries[i][10]);
-      let noballs = Number(deliveries[i][13]);
-      if (objectOfBowlers[bowler] == undefined) {
+      let bowler = currentMatch[8];
+      let runsOnEachBowl = Number(currentMatch[17]);
+      let wideBalls = Number(currentMatch[10]);
+      let noballs = Number(currentMatch[13]);
+      if (!objectOfBowlers[bowler]) {
         if (wideBalls > 0 || noballs > 0) {
           objectOfBowlers[bowler] = [runsOnEachBowl, 0];
         } else {
@@ -125,10 +129,10 @@ function economicalBowlers(matches, deliveries, requiredSeason) {
         objectOfBowlers[bowler] = currentStat;
       }
     }
-  }
-  const objOfBowlers = calculateEconomy(objectOfBowlers);
-
-  return getTop10(objOfBowlers);
+    return objectOfBowlers;
+  }, new Object());
+  const resultObjectOfBowlers = calculateEconomy(objectOfBowlers);
+  return getTop10(resultObjectOfBowlers);
 }
 
 export { numberOfMatches, matchesWonPerYear, extraRuns2016, economicalBowlers };
