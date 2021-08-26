@@ -86,4 +86,16 @@ each file will be containing separate outputs
 **papaparse**: Papa Parse is the fastest in-browser CSV (or delimited text) parser for JavaScript. It is reliable and correct according to RFC 4180.
 To learn more you can visit [papapparse](https://www.npmjs.com/package/papaparse).
 
+## Recent Updates
+
+Implementation of function problems is done using Array Higher Order Function in a separate Branch. Everyone can check out.
+
+**Branch name** : higherOrderFunctions
+
+**Clone the branch** -
+
+```sh
+git clone -b higherOrderFunctions https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
+```
+
 ---
