@@ -2,6 +2,8 @@
 
 This project is about getting several insights and information from a large set of data. The data is of all IPL seasons played from 2008 to 2017. The data is stored in CSV files.
 
+This is a separate branch named 'higherOrderFunctions'. In this branch the implementation of function problems are done using Array Higher Order Functions.
+
 ## Installations
 
 ### 1. Install git
