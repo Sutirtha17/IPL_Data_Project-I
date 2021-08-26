@@ -24,7 +24,7 @@ Use CTRL + ALT + T (Linux)
 ### 4. Clone this repository
 
 ```sh
-git clone https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
+git clone -b higherOrderFunctions https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
 ```
 
 ### 5. Go to the working directory
