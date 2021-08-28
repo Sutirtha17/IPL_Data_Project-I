@@ -2,12 +2,16 @@ import fs from "fs";
 
 import papa from "papaparse";
 
+import http from "http";
+
 import {
   extraRuns2016,
   matchesWonPerYear,
   numberOfMatches,
   economicalBowlers,
 } from "./ipl.js";
+
+const port = 3000;
 
 const matches = fs.createReadStream("./../data/matches.csv");
 
@@ -71,4 +75,23 @@ papa.parse(matches, {
       },
     });
   },
+});
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  fs.readFile("./../public/index.html", function (error, data) {
+    if (error) {
+      res.writeHead(404);
+      res.write("Error: File Not Found");
+    } else {
+      res.write(data);
+    }
+    res.end();
+  });
+});
+server.listen(port, function (error) {
+  if (error) {
+    console.log("Something went wrong", error);
+  } else {
+    console.log("Server is listening on port " + port);
+  }
 });
