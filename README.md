@@ -21,7 +21,7 @@ This project is about getting several insights and information from a large set 
 ### 4. Clone this repository
 
 ```sh
-git clone https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
+git clone -b plotting https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
 ```
 
 ### 5. Go to the working directory
@@ -88,14 +88,14 @@ To learn more you can visit [papapparse](https://www.npmjs.com/package/papaparse
 
 ## Recent Updates
 
-Implementation of function problems is done using Array Higher Order Function in a separate Branch. Everyone can check out.
+This branch is the implementation of visualization of IPL data Project, based on the four problems.
 
-**Branch name** : higherOrderFunctions
+**Branch name** : plotting
 
 **Clone the branch** -
 
 ```sh
-git clone -b higherOrderFunctions https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
+git clone -b plotting https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
 ```
 
 ---

@@ -22,7 +22,16 @@ function numberOfMatches(matches) {
       objectOfYears[year] = Number(objectOfYears[year]) + 1;
     }
   }
-  return objectOfYears;
+  const arrayOfObjects = Object.entries(objectOfYears).reduce(
+    (arrayOfObjects, object) => {
+      let year = object[0];
+      let matches = object[1];
+      arrayOfObjects.push({ year: year, matches: matches });
+      return arrayOfObjects;
+    },
+    []
+  );
+  return arrayOfObjects;
 }
 
 /* Problem 2*/
@@ -46,7 +55,23 @@ function matchesWonPerYear(matches) {
       }
     }
   }
-  return objectOfMatchesWonPerYear;
+  const arrayOfObjects = Object.entries(objectOfMatchesWonPerYear).reduce(
+    (arrayOfObjects, mainObject) => {
+      let year = Number(mainObject[0]);
+      let nestedObject = mainObject[1];
+      Object.keys(nestedObject).forEach((team) => {
+        let matchesWon = nestedObject[team];
+        arrayOfObjects.push({
+          year: Number(year),
+          team: team,
+          wins: Number(matchesWon),
+        });
+      });
+      return arrayOfObjects;
+    },
+    []
+  );
+  return arrayOfObjects;
 }
 
 /* Problem 3*/
@@ -68,7 +93,16 @@ function extraRuns2016(matches, deliveries, requiredSeason) {
       }
     }
   }
-  return objOfExtraRuns2016;
+  const arrayOfObjects = Object.entries(objOfExtraRuns2016).reduce(
+    (arrayOfObjects, object) => {
+      let team = object[0];
+      let extraRuns = object[1];
+      arrayOfObjects.push({ team: team, extra_runs: extraRuns });
+      return arrayOfObjects;
+    },
+    []
+  );
+  return arrayOfObjects;
 }
 
 /* Problem 4*/
@@ -129,7 +163,19 @@ function economicalBowlers(matches, deliveries, requiredSeason) {
   }
   const objOfBowlers = calculateEconomy(objectOfBowlers);
 
-  return getTop10(objOfBowlers);
+  const objectOfTop10bowlers = getTop10(objOfBowlers);
+
+  const arrayOfObjects = Object.entries(objectOfTop10bowlers).reduce(
+    (arrayOfObjects, object) => {
+      let bowler = object[0];
+      let economy = object[1];
+      arrayOfObjects.push({ bowler: bowler, economy: economy });
+      return arrayOfObjects;
+    },
+    []
+  );
+
+  return arrayOfObjects;
 }
 
 export { numberOfMatches, matchesWonPerYear, extraRuns2016, economicalBowlers };

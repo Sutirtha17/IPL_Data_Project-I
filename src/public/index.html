@@ -1,66 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin: 0;">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./../public/style.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <title>Document</title>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/modules/export-data.js"></script>
+		<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
-<body>
-    <figure class="highcharts-figure">
-        <div id="container"></div>
-        <p class="highcharts-description">
-          Chart showing stacked horizontal bars. This type of visualization is
-          great for comparing data that accumulates up to a sum.
-        </p>
+<body style="background-color: cadetblue; margin: 0; padding: 0;">
+    <div class="Heading" style="height: 80px; width: 100%; background-color: cornsilk; text-align: center; margin: 0;">
+      <h1>IPL DATA VISUALIZATION</h1>
+    </div>
+    <figure class="highcharts-figure" style="width: 50%; margin: 200px auto;">
+      <div id="matchesPerYear"></div>
+    </figure>
+      <figure class="highcharts-figure" style="width: 50%; margin: 200px auto;">
+        <div id="matchesWonPerYear"></div>
       </figure>
-      <!-- <script>
-        Highcharts.chart("container", {
-  chart: {
-    type: "bar",
-  },
-  title: {
-    text: "Stacked bar chart",
-  },
-  xAxis: {
-    categories: ["Apples", "Oranges", "Pears", "Grapes", "Bananas"],
-  },
-  yAxis: {
-    min: 0,
-    title: {
-      text: "Total fruit consumption",
-    },
-  },
-  legend: {
-    reversed: true,
-  },
-  plotOptions: {
-    series: {
-      stacking: "normal",
-    },
-  },
-  series: [
-    {
-      name: "John",
-      data: [5, 3, 4, 7, 2],
-    },
-    {
-      name: "Jane",
-      data: [2, 2, 3, 2, 1],
-    },
-    {
-      name: "Joe",
-      data: [3, 4, 4, 2, 5],
-    },
-  ],
-});
-
-      </script> -->
+      <figure class="highcharts-figure" style="width: 50%; margin: 200px auto;">
+        <div id="extraRuns2016"></div>
+      </figure>
+      <figure class="highcharts-figure" style="width: 50%; margin: 200px auto;">
+        <div id="economicalBowlers"></div>
+      </figure>
       <script src="./visualization.js" charset="utf-8"></script>
 </body>
 </html>

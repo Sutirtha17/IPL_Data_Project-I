@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "cd src/server && node index.js"
+    "start": "cd src/server && node index.js && cd - && cd src/public/ && python3 -m http.server"
   },
   "author": "",
   "license": "ISC",
