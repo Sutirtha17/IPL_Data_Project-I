@@ -103,7 +103,7 @@ function figure4(outputDataJSON) {
     },
     chart: {
       type: "column",
-      zoomType: "x",
+      zoomType: "xy",
       borderRadius: 20,
     },
     credits: {
