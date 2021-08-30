@@ -48,15 +48,19 @@ npm i papaparse
 npm run start
 ```
 
-### 9. Check the outputs
+A http server will start running as soon as you run this command.
 
-go to the output directory using
+### 9. See the visualization
+
+Open your Browser. Go to the address -
 
 ```sh
-cd src/public/output
+http://localhost:8000/
 ```
 
-each file will be containing separate outputs
+you can also check [`here`](http://localhost:8000/)
+
+Visualization will be available there.
 
 ## Obtained Insights
 
