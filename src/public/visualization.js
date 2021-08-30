@@ -1,8 +1,9 @@
 fetch("./output/matchesPerYear.json")
   .then((response) => response.json())
-  .then((JSONData) => plot1(JSONData));
-function plot1(JSONData) {
-  console.log(JSONData.map(({ year }) => year));
+  .then((outputDataJSON) => figure1(outputDataJSON));
+function figure1(outputDataJSON) {
+  const years = outputDataJSON.map((object) => object.year);
+  const matches = outputDataJSON.map((object) => object.matches);
   Highcharts.chart("matchesPerYear", {
     title: {
       text: "1. Matches Played per Season in IPL",
@@ -26,7 +27,7 @@ function plot1(JSONData) {
       title: {
         text: "Years",
       },
-      categories: JSONData.map(({ year }) => year),
+      categories: years,
     },
     yAxis: {
       title: {
@@ -36,7 +37,7 @@ function plot1(JSONData) {
     series: [
       {
         name: "Matches",
-        data: JSONData.map(({ matches }) => matches),
+        data: matches,
       },
     ],
   });
@@ -44,8 +45,10 @@ function plot1(JSONData) {
 
 fetch("./output/extraRuns2016.json")
   .then((response) => response.json())
-  .then((JSONData) => plot3(JSONData));
-function plot3(JSONData) {
+  .then((outputDataJSON) => figure3(outputDataJSON));
+function figure3(outputDataJSON) {
+  const teams = outputDataJSON.map((object) => object.team);
+  const extraRuns = outputDataJSON.map((object) => object.extra_runs);
   Highcharts.chart("extraRuns2016", {
     title: {
       text: "3. Extra Runs conceded per Team in the Year 2016",
@@ -69,7 +72,7 @@ function plot3(JSONData) {
       title: {
         text: "Teams",
       },
-      categories: JSONData.map(({ team }) => team),
+      categories: teams,
     },
     yAxis: {
       title: {
@@ -79,19 +82,21 @@ function plot3(JSONData) {
     series: [
       {
         name: "Extra Runs",
-        data: JSONData.map(({ extra_runs }) => extra_runs),
+        data: extraRuns,
       },
     ],
   });
 }
+
 fetch("./output/economicalBowlers.json")
   .then((response) => response.json())
-  .then((JSONData) => plot4(JSONData));
-function plot4(JSONData) {
-  series = [];
-  JSONData.forEach((entry) => {
+  .then((outputDataJSON) => figure4(outputDataJSON));
+function figure4(outputDataJSON) {
+  const bowlers = outputDataJSON.map((object) => object.bowler);
+  const series = outputDataJSON.reduce((series, entry) => {
     series.push(Number(entry.economy));
-  });
+    return series;
+  }, []);
   Highcharts.chart("economicalBowlers", {
     title: {
       text: "4. Top 10 Economical Bowlers in the Year 2015",
@@ -115,7 +120,7 @@ function plot4(JSONData) {
       title: {
         text: "Bowlers",
       },
-      categories: JSONData.map(({ bowler }) => bowler),
+      categories: bowlers,
     },
     yAxis: {
       title: {
@@ -133,38 +138,34 @@ function plot4(JSONData) {
 
 fetch("./output/matchesWonPerYear.json")
   .then((response) => response.json())
-  .then((JSONData) => plot2(JSONData));
-function plot2(JSONData) {
-  const teams = JSONData.reduce((subjectTeams, { team }) => {
-    if (!subjectTeams.includes(team)) {
-      subjectTeams.push(team);
+  .then((outputDataJSON) => figure2(outputDataJSON));
+function figure2(outputDataJSON) {
+  const years = outputDataJSON.reduce((playingYears, { year }) => {
+    if (!playingYears.includes(year)) {
+      playingYears.push(year);
     }
-    return subjectTeams;
-  }, []).sort((teamA, teamB) => teamA.localeCompare(teamB));
-
-  const years = JSONData.reduce((subjectYears, { year }) => {
-    if (!subjectYears.includes(year)) {
-      subjectYears.push(year);
-    }
-    return subjectYears;
+    return playingYears;
   }, []);
-
+  const teams = outputDataJSON.reduce((playingTeams, { team }) => {
+    if (!playingTeams.includes(team)) {
+      playingTeams.push(team);
+    }
+    return playingTeams;
+  }, []);
   const series = [];
   teams.forEach((currentTeam) => {
-    let pushSeries = {
-      name: currentTeam,
-      data: [],
-    };
-    let pushWins = 0;
-    years.forEach((currYear) => {
-      JSONData.forEach(({ year, team, wins }) => {
-        if (team === currentTeam && year === currYear) {
-          pushWins = Number(wins);
+    let currentTeamData = [];
+    years.forEach((currentYear) => {
+      let isPresent = false;
+      outputDataJSON.forEach(({ year, team, wins }) => {
+        if (team == currentTeam && year == currentYear) {
+          currentTeamData.push(Number(wins));
+          isPresent = true;
         }
       });
-      pushSeries["data"].push(pushWins);
+      if (!isPresent) currentTeamData.push(0);
     });
-    series.push(pushSeries);
+    series.push({ name: currentTeam, data: currentTeamData });
   });
   Highcharts.chart("matchesWonPerYear", {
     title: {
@@ -177,7 +178,7 @@ function plot2(JSONData) {
     },
     chart: {
       type: "column",
-      zoomType: "x",
+      zoomType: "xy",
       borderRadius: 20,
     },
     credits: {
