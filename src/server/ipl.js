@@ -2,36 +2,36 @@
 
 function getMatchIds(matches, requiredSeason) {
   let matchIds = new Set();
-  for (let i = 1; i < matches.length; i++) {
-    if (matches[i][1] == requiredSeason) {
-      matchIds.add(matches[i][0]);
-    }
-  }
+
+  matches
+    .filter((currentMatch) => currentMatch[1] == requiredSeason)
+    .forEach((currentMatch) => {
+      matchIds.add(currentMatch[0]);
+    });
+
   return matchIds;
 }
 
 /* Problem 1*/
 
 function numberOfMatches(matches) {
-  const objectOfYears = matches.reduce((objectOfYears, currentMatch) => {
-    let year = parseInt(currentMatch[1]);
-    if (!year) return objectOfYears;
-    if (!objectOfYears[year]) objectOfYears[year] = 1;
-    else objectOfYears[year] = Number(objectOfYears[year]) + 1;
-    return objectOfYears;
-  }, new Object());
-
-  return objectOfYears;
+  return matches
+    .filter((currentMatch) => parseInt(currentMatch[1]) > 0)
+    .reduce((objectOfYears, currentMatch) => {
+      let year = parseInt(currentMatch[1]);
+      objectOfYears[year] = (objectOfYears[year] || 0) + 1;
+      return objectOfYears;
+    }, new Object());
 }
 
 /* Problem 2*/
 
 function matchesWonPerYear(matches) {
-  const objectOfMatchesWonPerYear = matches.reduce(
-    (objectOfMatchesWonPerYear, currentMatch) => {
+  return matches
+    .filter((currentMatch) => parseInt(currentMatch[1]) && currentMatch[10])
+    .reduce((objectOfMatchesWonPerYear, currentMatch) => {
       let year = parseInt(currentMatch[1]);
       let team = currentMatch[10];
-      if (!year || !team) return objectOfMatchesWonPerYear;
       if (!objectOfMatchesWonPerYear[year]) {
         objectOfMatchesWonPerYear[year] = new Object();
       }
@@ -43,36 +43,22 @@ function matchesWonPerYear(matches) {
         objectOfMatchesWonPerYear[year][team] = noOfMatches;
       }
       return objectOfMatchesWonPerYear;
-    },
-    new Object()
-  );
-  return objectOfMatchesWonPerYear;
+    }, {});
 }
 
 /* Problem 3*/
 
 function extraRuns2016(matches, deliveries, requiredSeason) {
   const matchIds = getMatchIds(matches, requiredSeason);
-  const objOfExtraRuns2016 = deliveries.reduce(
-    (objOfExtraRuns2016, currentMatch) => {
-      let matchId = currentMatch[0];
-      if (matchIds.has(matchId)) {
-        let team = currentMatch[3];
-        if (!team) return objOfExtraRuns2016;
-        let extraRuns = Number(currentMatch[16]);
-        if (!objOfExtraRuns2016[team]) {
-          objOfExtraRuns2016[team] = extraRuns;
-        } else {
-          let currentExtraRuns = Number(objOfExtraRuns2016[team]);
-          currentExtraRuns += extraRuns;
-          objOfExtraRuns2016[team] = currentExtraRuns;
-        }
-      }
+
+  return deliveries
+    .filter((currentMatch) => currentMatch[3] && matchIds.has(currentMatch[0]))
+    .reduce((objOfExtraRuns2016, currentMatch) => {
+      let team = currentMatch[3];
+      let extraRuns = parseInt(currentMatch[16]);
+      objOfExtraRuns2016[team] = (objOfExtraRuns2016[team] || 0) + extraRuns;
       return objOfExtraRuns2016;
-    },
-    new Object()
-  );
-  return objOfExtraRuns2016;
+    }, new Object());
 }
 
 /* Problem 4*/
@@ -83,12 +69,13 @@ function bowlsToOverConvertion(totalBowls) {
 
 function calculateEconomy(objectOfBowlers) {
   const objOfBowlers = new Object();
-  for (let [bowler, currentStat] of Object.entries(objectOfBowlers)) {
-    let runs = currentStat[0];
-    let overs = bowlsToOverConvertion(currentStat[1]);
-    let economyRate = (runs / overs).toFixed(2);
+  Object.keys(objectOfBowlers).forEach((bowler) => {
+    let totalRuns = objectOfBowlers[bowler][0];
+    let totalBowls = objectOfBowlers[bowler][1];
+    let overs = bowlsToOverConvertion(totalBowls);
+    let economyRate = (totalRuns / overs).toFixed(2);
     objOfBowlers[bowler] = economyRate;
-  }
+  });
   return objOfBowlers;
 }
 
