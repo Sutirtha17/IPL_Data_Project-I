@@ -1,17 +1,41 @@
 fetch("./output/matchesPerYear.json")
   .then((response) => response.json())
   .then((outputDataJSON) => figure1(outputDataJSON));
+
+fetch("./output/matchesWonPerYear.json")
+  .then((response) => response.json())
+  .then((outputDataJSON) => figure2(outputDataJSON));
+
+fetch("./output/extraRuns2016.json")
+  .then((response) => response.json())
+  .then((outputDataJSON) => figure3(outputDataJSON));
+
+fetch("./output/economicalBowlers.json")
+  .then((response) => response.json())
+  .then((outputDataJSON) => figure4(outputDataJSON));
+
 function figure1(outputDataJSON) {
   const years = outputDataJSON.map((object) => object.year);
   const matches = outputDataJSON.map((object) => object.matches);
   Highcharts.chart("matchesPerYear", {
     title: {
-      text: "1. Matches Played per Season in IPL",
+      text: " Matches Played per Season in IPL",
+      style: {
+        color: "black",
+        font: 'bold 16px "Trebuchet MS", Verdana, sans-serif',
+      },
     },
     chart: {
       type: "column",
       zoomType: "x",
-      borderRadius: 20,
+      borderRadius: 10,
+      backgroundColor: "rgba(249, 241, 250, 0.5)",
+      borderWidth: 2,
+      borderColor: "black",
+      style: {
+        fontFamily: "monospace",
+        color: "black",
+      },
     },
     credits: {
       enabled: false,
@@ -28,10 +52,28 @@ function figure1(outputDataJSON) {
         text: "Years",
       },
       categories: years,
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
     },
     yAxis: {
       title: {
         text: "Matches",
+      },
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
+    },
+    plotOptions: {
+      series: {
+        color: "rgba(43, 171, 9, 0.5)",
+        borderWidth: 2,
+        borderColor: "black",
+        borderRadius: 5,
       },
     },
     series: [
@@ -43,114 +85,18 @@ function figure1(outputDataJSON) {
   });
 }
 
-fetch("./output/extraRuns2016.json")
-  .then((response) => response.json())
-  .then((outputDataJSON) => figure3(outputDataJSON));
-function figure3(outputDataJSON) {
-  const teams = outputDataJSON.map((object) => object.team);
-  const extraRuns = outputDataJSON.map((object) => object.extra_runs);
-  Highcharts.chart("extraRuns2016", {
-    title: {
-      text: "3. Extra Runs conceded per Team in the Year 2016",
-    },
-    chart: {
-      type: "column",
-      zoomType: "x",
-      borderRadius: 20,
-    },
-    credits: {
-      enabled: false,
-    },
-    tooltip: {
-      backgroundColor: "#333333",
-      borderRadius: 20,
-      style: {
-        color: "#ffffff",
-      },
-    },
-    xAxis: {
-      title: {
-        text: "Teams",
-      },
-      categories: teams,
-    },
-    yAxis: {
-      title: {
-        text: "Extra Runs",
-      },
-    },
-    series: [
-      {
-        name: "Extra Runs",
-        data: extraRuns,
-      },
-    ],
-  });
-}
-
-fetch("./output/economicalBowlers.json")
-  .then((response) => response.json())
-  .then((outputDataJSON) => figure4(outputDataJSON));
-function figure4(outputDataJSON) {
-  const bowlers = outputDataJSON.map((object) => object.bowler);
-  const series = outputDataJSON.reduce((series, entry) => {
-    series.push(Number(entry.economy));
-    return series;
-  }, []);
-  Highcharts.chart("economicalBowlers", {
-    title: {
-      text: "4. Top 10 Economical Bowlers in the Year 2015",
-    },
-    chart: {
-      type: "column",
-      zoomType: "xy",
-      borderRadius: 20,
-    },
-    credits: {
-      enabled: false,
-    },
-    tooltip: {
-      backgroundColor: "#333333",
-      borderRadius: 20,
-      style: {
-        color: "#ffffff",
-      },
-    },
-    xAxis: {
-      title: {
-        text: "Bowlers",
-      },
-      categories: bowlers,
-    },
-    yAxis: {
-      title: {
-        text: "Economy_rate",
-      },
-    },
-    series: [
-      {
-        name: "Economy_rate",
-        data: series,
-      },
-    ],
-  });
-}
-
-fetch("./output/matchesWonPerYear.json")
-  .then((response) => response.json())
-  .then((outputDataJSON) => figure2(outputDataJSON));
 function figure2(outputDataJSON) {
-  const years = outputDataJSON.reduce((playingYears, { year }) => {
-    if (!playingYears.includes(year)) {
-      playingYears.push(year);
+  const years = outputDataJSON.reduce((allSeasons, { year }) => {
+    if (!allSeasons.includes(year)) {
+      allSeasons.push(year);
     }
-    return playingYears;
+    return allSeasons;
   }, []);
-  const teams = outputDataJSON.reduce((playingTeams, { team }) => {
-    if (!playingTeams.includes(team)) {
-      playingTeams.push(team);
+  const teams = outputDataJSON.reduce((allTeams, { team }) => {
+    if (!allTeams.includes(team)) {
+      allTeams.push(team);
     }
-    return playingTeams;
+    return allTeams;
   }, []);
   const series = [];
   teams.forEach((currentTeam) => {
@@ -169,7 +115,11 @@ function figure2(outputDataJSON) {
   });
   Highcharts.chart("matchesWonPerYear", {
     title: {
-      text: "2. Matches Won per Team per Year in IPL",
+      text: "Matches Won per Team per Year in IPL",
+      style: {
+        color: "black",
+        font: 'bold 16px "Trebuchet MS", Verdana, sans-serif',
+      },
     },
     plotOptions: {
       column: {
@@ -179,7 +129,14 @@ function figure2(outputDataJSON) {
     chart: {
       type: "column",
       zoomType: "xy",
-      borderRadius: 20,
+      borderRadius: 10,
+      backgroundColor: "rgba(249, 241, 250, 0.5)",
+      borderWidth: 2,
+      borderColor: "black",
+      style: {
+        fontFamily: "monospace",
+        color: "black",
+      },
     },
     credits: {
       enabled: false,
@@ -196,12 +153,167 @@ function figure2(outputDataJSON) {
         text: "Years",
       },
       categories: years,
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
     },
     yAxis: {
       title: {
         text: "Wins",
       },
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
     },
     series: series,
+  });
+}
+
+function figure3(outputDataJSON) {
+  const teams = outputDataJSON.map((object) => object.team);
+  const extraRuns = outputDataJSON.map((object) => object.extra_runs);
+  Highcharts.chart("extraRuns2016", {
+    title: {
+      text: "Extra Runs conceded per Team in the Year 2016",
+      style: {
+        color: "black",
+        font: 'bold 16px "Trebuchet MS", Verdana, sans-serif',
+      },
+    },
+    chart: {
+      type: "column",
+      zoomType: "x",
+      borderRadius: 10,
+      backgroundColor: "rgba(249, 241, 250, 0.5)",
+      borderWidth: 2,
+      borderColor: "black",
+      style: {
+        fontFamily: "monospace",
+        color: "black",
+      },
+    },
+    credits: {
+      enabled: false,
+    },
+    tooltip: {
+      backgroundColor: "#333333",
+      borderRadius: 20,
+      style: {
+        color: "#ffffff",
+      },
+    },
+    xAxis: {
+      title: {
+        text: "Teams",
+      },
+      categories: teams,
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
+    },
+    yAxis: {
+      title: {
+        text: "Extra Runs",
+      },
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
+    },
+    plotOptions: {
+      series: {
+        color: "rgba(43, 171, 9, 0.5)",
+        borderWidth: 2,
+        borderColor: "black",
+        borderRadius: 5,
+      },
+    },
+    series: [
+      {
+        name: "Extra Runs",
+        data: extraRuns,
+      },
+    ],
+  });
+}
+
+function figure4(outputDataJSON) {
+  const bowlers = outputDataJSON.map((object) => object.bowler);
+  const series = outputDataJSON.reduce((series, entry) => {
+    series.push(Number(entry.economy));
+    return series;
+  }, []);
+  Highcharts.chart("economicalBowlers", {
+    title: {
+      text: "Top 10 Economical Bowlers in the Year 2015",
+      style: {
+        color: "black",
+        font: 'bold 16px "Trebuchet MS", Verdana, sans-serif',
+      },
+    },
+    chart: {
+      type: "column",
+      zoomType: "xy",
+      borderRadius: 10,
+      backgroundColor: "rgba(249, 241, 250, 0.5)",
+      borderWidth: 2,
+      borderColor: "black",
+      style: {
+        fontFamily: "monospace",
+        color: "black",
+      },
+    },
+    credits: {
+      enabled: false,
+    },
+    tooltip: {
+      backgroundColor: "#333333",
+      borderRadius: 20,
+      style: {
+        color: "#ffffff",
+      },
+    },
+    xAxis: {
+      title: {
+        text: "Bowlers",
+      },
+      categories: bowlers,
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
+    },
+    yAxis: {
+      title: {
+        text: "Economy_rate",
+      },
+      labels: {
+        style: {
+          color: "black",
+        },
+      },
+    },
+    plotOptions: {
+      series: {
+        color: "rgba(43, 171, 9, 0.5)",
+        borderWidth: 2,
+        borderColor: "black",
+        borderRadius: 5,
+      },
+    },
+    series: [
+      {
+        name: "Economy_rate",
+        data: series,
+      },
+    ],
   });
 }

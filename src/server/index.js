@@ -9,11 +9,11 @@ import {
   economicalBowlers,
 } from "./ipl.js";
 
-const matches = fs.createReadStream("./../data/matches.csv");
+const matchesFile = fs.createReadStream("./../data/matches.csv");
 
-const deliveries = fs.createReadStream("./../data/deliveries.csv");
+const deliveriesFile = fs.createReadStream("./../data/deliveries.csv");
 
-papa.parse(matches, {
+papa.parse(matchesFile, {
   complete: function (matches) {
     //problem 1
 
@@ -37,7 +37,7 @@ papa.parse(matches, {
       console.log(err);
     }
 
-    papa.parse(deliveries, {
+    papa.parse(deliveriesFile, {
       complete: function (deliveries) {
         // problem 3
 
