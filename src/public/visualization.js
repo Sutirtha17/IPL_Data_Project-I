@@ -50,6 +50,9 @@ function figure1(outputDataJSON) {
     xAxis: {
       title: {
         text: "Years",
+        style: {
+          color: "#000000",
+        },
       },
       categories: years,
       labels: {
@@ -61,6 +64,9 @@ function figure1(outputDataJSON) {
     yAxis: {
       title: {
         text: "Matches",
+        style: {
+          color: "black",
+        },
       },
       labels: {
         style: {
@@ -151,6 +157,9 @@ function figure2(outputDataJSON) {
     xAxis: {
       title: {
         text: "Years",
+        style: {
+          color: "black",
+        },
       },
       categories: years,
       labels: {
@@ -162,6 +171,9 @@ function figure2(outputDataJSON) {
     yAxis: {
       title: {
         text: "Wins",
+        style: {
+          color: "black",
+        },
       },
       labels: {
         style: {
@@ -209,6 +221,9 @@ function figure3(outputDataJSON) {
     xAxis: {
       title: {
         text: "Teams",
+        style: {
+          color: "black",
+        },
       },
       categories: teams,
       labels: {
@@ -220,6 +235,9 @@ function figure3(outputDataJSON) {
     yAxis: {
       title: {
         text: "Extra Runs",
+        style: {
+          color: "black",
+        },
       },
       labels: {
         style: {
@@ -283,6 +301,9 @@ function figure4(outputDataJSON) {
     xAxis: {
       title: {
         text: "Bowlers",
+        style: {
+          color: "black",
+        },
       },
       categories: bowlers,
       labels: {
@@ -294,6 +315,9 @@ function figure4(outputDataJSON) {
     yAxis: {
       title: {
         text: "Economy_rate",
+        style: {
+          color: "black",
+        },
       },
       labels: {
         style: {
