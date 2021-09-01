@@ -19,7 +19,9 @@ function numberOfMatches(matches) {
     .filter((currentMatch) => parseInt(currentMatch[1]) > 0)
     .reduce((objectOfYears, currentMatch) => {
       let year = parseInt(currentMatch[1]);
+
       objectOfYears[year] = (objectOfYears[year] || 0) + 1;
+
       return objectOfYears;
     }, new Object());
 }
@@ -32,6 +34,7 @@ function matchesWonPerYear(matches) {
     .reduce((objectOfMatchesWonPerYear, currentMatch) => {
       let year = parseInt(currentMatch[1]);
       let team = currentMatch[10];
+
       if (!objectOfMatchesWonPerYear[year]) {
         objectOfMatchesWonPerYear[year] = new Object();
       }
@@ -42,6 +45,7 @@ function matchesWonPerYear(matches) {
         noOfMatches += 1;
         objectOfMatchesWonPerYear[year][team] = noOfMatches;
       }
+
       return objectOfMatchesWonPerYear;
     }, {});
 }
@@ -56,7 +60,9 @@ function extraRuns2016(matches, deliveries, requiredSeason) {
     .reduce((objOfExtraRuns2016, currentMatch) => {
       let team = currentMatch[3];
       let extraRuns = parseInt(currentMatch[16]);
+
       objOfExtraRuns2016[team] = (objOfExtraRuns2016[team] || 0) + extraRuns;
+
       return objOfExtraRuns2016;
     }, new Object());
 }
@@ -69,6 +75,7 @@ function bowlsToOverConvertion(totalBowls) {
 
 function calculateEconomy(objectOfBowlers) {
   const objOfBowlers = new Object();
+
   Object.keys(objectOfBowlers).forEach((bowler) => {
     let totalRuns = objectOfBowlers[bowler][0];
     let totalBowls = objectOfBowlers[bowler][1];
@@ -76,24 +83,28 @@ function calculateEconomy(objectOfBowlers) {
     let economyRate = (totalRuns / overs).toFixed(2);
     objOfBowlers[bowler] = economyRate;
   });
+
   return objOfBowlers;
 }
 
 function getTop10(objOfBowlers) {
   const resultObject = new Object();
-  let keysSorted = Object.keys(objOfBowlers).sort(function (a, b) {
-    return objOfBowlers[a] - objOfBowlers[b];
-  });
-  for (let i = 0; i < 10; i++) {
-    let bowler = keysSorted[i];
-    let economyRate = objOfBowlers[bowler];
-    resultObject[bowler] = economyRate;
-  }
+
+  Object.keys(objOfBowlers)
+    .sort(function (a, b) {
+      return objOfBowlers[a] - objOfBowlers[b];
+    })
+    .slice(0, 10)
+    .forEach((bowler) => {
+      let economyRate = objOfBowlers[bowler];
+      resultObject[bowler] = economyRate;
+    });
   return resultObject;
 }
 
 function economicalBowlers(matches, deliveries, requiredSeason) {
   let matchIds = getMatchIds(matches, requiredSeason);
+
   const objectOfBowlers = deliveries.reduce((objectOfBowlers, currentMatch) => {
     let matchId = currentMatch[0];
     if (matchIds.has(matchId)) {
@@ -101,6 +112,7 @@ function economicalBowlers(matches, deliveries, requiredSeason) {
       let runsOnEachBowl = Number(currentMatch[17]);
       let wideBalls = Number(currentMatch[10]);
       let noballs = Number(currentMatch[13]);
+
       if (!objectOfBowlers[bowler]) {
         if (wideBalls > 0 || noballs > 0) {
           objectOfBowlers[bowler] = [runsOnEachBowl, 0];
@@ -116,9 +128,11 @@ function economicalBowlers(matches, deliveries, requiredSeason) {
         objectOfBowlers[bowler] = currentStat;
       }
     }
+
     return objectOfBowlers;
   }, new Object());
   const resultObjectOfBowlers = calculateEconomy(objectOfBowlers);
+
   return getTop10(resultObjectOfBowlers);
 }
 
