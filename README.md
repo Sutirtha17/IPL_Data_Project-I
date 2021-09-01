@@ -2,7 +2,7 @@
 
 This project is about getting several insights and information from a large set of data. The data is of all IPL seasons played from 2008 to 2017. The data is stored in CSV files.
 
-This is a separate branch named 'higherOrderFunctions'. In this branch the implementation of function problems are done using Array Higher Order Functions.
+This is a separate branch named 'Chaining'. In this branch the implementation of function problems are done using Array Higher Order Functions and concept of methode chaining.
 
 ## Installations
 
@@ -26,7 +26,7 @@ Use CTRL + ALT + T (Linux)
 ### 4. Clone this repository
 
 ```sh
-git clone -b higherOrderFunctions https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
+git clone -b chaining https://github.com/Sutirtha17/Sutirtha_IPL_Project.git
 ```
 
 ### 5. Go to the working directory
