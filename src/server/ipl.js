@@ -3,11 +3,9 @@
 function getMatchIds(matches, requiredSeason) {
   let matchIds = new Set();
 
-  matches
-    .filter((currentMatch) => currentMatch[1] == requiredSeason)
-    .forEach((currentMatch) => {
-      matchIds.add(currentMatch[0]);
-    });
+  matches.forEach(({ id, season }) => {
+    if (season == requiredSeason) matchIds.add(id);
+  });
 
   return matchIds;
 }
@@ -15,39 +13,31 @@ function getMatchIds(matches, requiredSeason) {
 /* Problem 1*/
 
 function numberOfMatches(matches) {
-  return matches
-    .filter((currentMatch) => parseInt(currentMatch[1]) > 0)
-    .reduce((objectOfYears, currentMatch) => {
-      let year = parseInt(currentMatch[1]);
+  return matches.reduce((objectOfYears, { season }) => {
+    if (!season) return objectOfYears;
+    objectOfYears[season] = (objectOfYears[season] || 0) + 1;
 
-      objectOfYears[year] = (objectOfYears[year] || 0) + 1;
-
-      return objectOfYears;
-    }, new Object());
+    return objectOfYears;
+  }, new Object());
 }
 
 /* Problem 2*/
 
 function matchesWonPerYear(matches) {
-  return matches
-    .filter((currentMatch) => parseInt(currentMatch[1]) && currentMatch[10])
-    .reduce((objectOfMatchesWonPerYear, currentMatch) => {
-      let year = parseInt(currentMatch[1]);
-      let team = currentMatch[10];
+  return matches.reduce((objectOfMatchesWonPerYear, { season, winner }) => {
+    if (!season || !winner) return objectOfMatchesWonPerYear;
+    if (!objectOfMatchesWonPerYear[season]) {
+      objectOfMatchesWonPerYear[season] = new Object();
+    }
+    if (!objectOfMatchesWonPerYear[season][winner]) {
+      objectOfMatchesWonPerYear[season][winner] = 1;
+    } else {
+      let noOfMatches = Number(objectOfMatchesWonPerYear[season][winner]) + 1;
+      objectOfMatchesWonPerYear[season][winner] = noOfMatches;
+    }
 
-      if (!objectOfMatchesWonPerYear[year]) {
-        objectOfMatchesWonPerYear[year] = new Object();
-      }
-      if (!objectOfMatchesWonPerYear[year][team]) {
-        objectOfMatchesWonPerYear[year][team] = 1;
-      } else {
-        let noOfMatches = Number(objectOfMatchesWonPerYear[year][team]);
-        noOfMatches += 1;
-        objectOfMatchesWonPerYear[year][team] = noOfMatches;
-      }
-
-      return objectOfMatchesWonPerYear;
-    }, {});
+    return objectOfMatchesWonPerYear;
+  }, {});
 }
 
 /* Problem 3*/
@@ -55,16 +45,26 @@ function matchesWonPerYear(matches) {
 function extraRuns2016(matches, deliveries, requiredSeason) {
   const matchIds = getMatchIds(matches, requiredSeason);
 
-  return deliveries
-    .filter((currentMatch) => currentMatch[3] && matchIds.has(currentMatch[0]))
-    .reduce((objOfExtraRuns2016, currentMatch) => {
-      let team = currentMatch[3];
-      let extraRuns = parseInt(currentMatch[16]);
-
-      objOfExtraRuns2016[team] = (objOfExtraRuns2016[team] || 0) + extraRuns;
-
+  const objOfExtraRuns2016 = deliveries.reduce(
+    (
+      objOfExtraRuns2016,
+      { match_id: id, bowling_team: team, extra_runs: extraRuns }
+    ) => {
+      if (matchIds.has(id)) {
+        if (!team) return objOfExtraRuns2016;
+        if (!objOfExtraRuns2016[team]) {
+          objOfExtraRuns2016[team] = extraRuns;
+        } else {
+          let currentExtraRuns =
+            Number(objOfExtraRuns2016[team]) + parseInt(extraRuns);
+          objOfExtraRuns2016[team] = currentExtraRuns;
+        }
+      }
       return objOfExtraRuns2016;
-    }, new Object());
+    },
+    new Object()
+  );
+  return objOfExtraRuns2016;
 }
 
 /* Problem 4*/
@@ -105,32 +105,42 @@ function getTop10(objOfBowlers) {
 function economicalBowlers(matches, deliveries, requiredSeason) {
   let matchIds = getMatchIds(matches, requiredSeason);
 
-  const objectOfBowlers = deliveries.reduce((objectOfBowlers, currentMatch) => {
-    let matchId = currentMatch[0];
-    if (matchIds.has(matchId)) {
-      let bowler = currentMatch[8];
-      let runsOnEachBowl = Number(currentMatch[17]);
-      let wideBalls = Number(currentMatch[10]);
-      let noballs = Number(currentMatch[13]);
-
-      if (!objectOfBowlers[bowler]) {
-        if (wideBalls > 0 || noballs > 0) {
-          objectOfBowlers[bowler] = [runsOnEachBowl, 0];
-        } else {
-          objectOfBowlers[bowler] = [runsOnEachBowl, 1];
-        }
-      } else {
-        let currentStat = objectOfBowlers[bowler];
-        currentStat[0] += runsOnEachBowl;
-        if (wideBalls == 0 && noballs == 0) {
-          currentStat[1] += 1;
-        }
-        objectOfBowlers[bowler] = currentStat;
+  const objectOfBowlers = deliveries.reduce(
+    (
+      objectOfBowlers,
+      {
+        match_id: id,
+        bowler,
+        wide_runs: wideRuns,
+        noball_runs: noballRuns,
+        total_runs: runsOnEachBowl,
       }
-    }
+    ) => {
+      if (matchIds.has(id)) {
+        runsOnEachBowl = Number(runsOnEachBowl);
+        wideRuns = Number(wideRuns);
+        noballRuns = Number(noballRuns);
 
-    return objectOfBowlers;
-  }, new Object());
+        if (!objectOfBowlers[bowler]) {
+          if (wideRuns > 0 || noballRuns > 0) {
+            objectOfBowlers[bowler] = [runsOnEachBowl, 0];
+          } else {
+            objectOfBowlers[bowler] = [runsOnEachBowl, 1];
+          }
+        } else {
+          let currentStat = objectOfBowlers[bowler];
+          currentStat[0] += runsOnEachBowl;
+          if (wideRuns == 0 && noballRuns == 0) {
+            currentStat[1] += 1;
+          }
+          objectOfBowlers[bowler] = currentStat;
+        }
+      }
+
+      return objectOfBowlers;
+    },
+    new Object()
+  );
   const resultObjectOfBowlers = calculateEconomy(objectOfBowlers);
 
   return getTop10(resultObjectOfBowlers);
