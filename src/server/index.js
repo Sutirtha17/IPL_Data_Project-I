@@ -14,11 +14,7 @@ const matches = fs.createReadStream('./../data/matches.csv');
 const deliveries = fs.createReadStream('./../data/deliveries.csv');
 
 const saveFile = (location, data) => {
-  try {
-    fs.writeFileSync(location, data);
-  } catch (err) {
-    console.log(err);
-  }
+  fs.writeFileSync(location, data);
 };
 
 papa.parse(matches, {
